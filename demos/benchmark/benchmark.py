@@ -39,6 +39,8 @@ define("quiet", type=bool, default=False)
 # --n=15000 for its JIT to reach full effectiveness
 define("num_runs", type=int, default=1)
 
+define("ioloop", type=str, default=None)
+
 class RootHandler(RequestHandler):
     def get(self):
         self.write("Hello, world")
@@ -47,10 +49,12 @@ class RootHandler(RequestHandler):
         pass
 
 def handle_sigchld(sig, frame):
-    IOLoop.instance().add_callback(IOLoop.instance().stop)
+    IOLoop.instance().add_callback_from_signal(IOLoop.instance().stop)
 
 def main():
     parse_command_line()
+    if options.ioloop:
+        IOLoop.configure(options.ioloop)
     for i in xrange(options.num_runs):
         run()
 

@@ -1,4 +1,8 @@
 #!/bin/sh
+# Run the Tornado test suite.
+#
+# Also consider using tox, which uses virtualenv to run the test suite
+# under multiple versions of python.
 
 cd $(dirname $0)
 
